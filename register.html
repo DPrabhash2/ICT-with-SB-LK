@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ICTwithSB</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#0a0a0a',
+                            dark: '#171717',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen w-full bg-[#f8fafc] overflow-x-hidden relative">
+
+    <!-- Background Decoration Blobs -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-[-5%] left-[-5%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-purple-500/10 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <div class="flex min-h-screen w-full relative z-10">
+        <!-- Left Side - Visual (Sticky for better UX during long scroll) -->
+        <div class="hidden lg:flex w-1/2 p-12 flex-col justify-between relative overflow-hidden h-screen sticky top-0">
+             <!-- Background Image with Premium Overlay -->
+             <div class="absolute inset-4 z-0 rounded-[3rem] overflow-hidden shadow-2xl">
+                <img src="images/sb_sir_hero.jpg" alt="ICT SB Login Background" class="w-full h-full object-cover object-top scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+                
+                <!-- Floating Decorative Elements -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[100px] animate-pulse"></div>
+            </div>
+            
+            <div class="relative z-10 p-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-black text-2xl tracking-tighter text-white uppercase leading-none">SB ICT</span>
+                        <span class="text-[0.6rem] font-bold tracking-[0.3em] text-blue-400 uppercase">Registration Portal</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative z-10 max-w-lg p-4 mb-10">
+                <h1 class="text-6xl font-black text-white mb-6 tracking-tighter leading-none">Start Your <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Winning Journey.</span></h1>
+                <p class="text-slate-300 text-lg leading-relaxed font-medium">
+                    Join the most successful ICT class in Sri Lanka. Your path to excellence begins with a single step.
+                </p>
+                <div class="mt-8 flex gap-3">
+                    <div class="w-16 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                    <div class="w-4 h-1.5 bg-white/20 rounded-full"></div>
+                    <div class="w-4 h-1.5 bg-white/20 rounded-full"></div>
+                </div>
+            </div>
+
+            <div class="relative z-10 text-xs font-bold text-slate-400 p-4 uppercase tracking-[0.2em]">
+                &copy; Shantha Bandara ICT Academy
+            </div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12">
+            <div class="w-full max-w-md space-y-10 py-12">
+                <div class="text-center lg:text-left space-y-3">
+                    <div class="inline-flex px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-[0.65rem] font-black uppercase tracking-widest border border-blue-100/50 mb-2">
+                        Create Account
+                    </div>
+                    <h2 class="text-4xl font-black text-slate-900 tracking-tight">Join the Academy</h2>
+                    <p class="text-slate-500 font-medium">Please fill in your details to get started.</p>
+                </div>
+                
+                <form class="space-y-10" action="#" method="POST" onsubmit="event.preventDefault(); alert('Registration successful!'); window.location.href='login.html'">
+                    <!-- Personal Information -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">01</div>
+                            <h3 class="text-lg font-black text-slate-900 tracking-tight uppercase text-sm">Personal Information</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label for="first-name" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">First Name</label>
+                                <input id="first-name" name="first-name" type="text" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="First Name">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="last-name" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
+                                <input id="last-name" name="last-name" type="text" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="Last Name">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="email" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                            <input id="email" name="email" type="email" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="example@mail.com">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label for="phone" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Phone Number</label>
+                                <input id="phone" name="phone" type="tel" pattern="[0-9]{10}" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="07xxxxxxxx">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="whatsapp" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">WhatsApp No.</label>
+                                <input id="whatsapp" name="whatsapp" type="tel" pattern="[0-9]{10}" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="07xxxxxxxx">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label for="nic" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">NIC Number</label>
+                                <input id="nic" name="nic" type="text" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="200xxxxxxxxx">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="dob" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Date of Birth</label>
+                                <input id="dob" name="dob" type="date" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- School Information -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-sm">02</div>
+                            <h3 class="text-lg font-black text-slate-900 tracking-tight uppercase text-sm">Academic Details</h3>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="school-name" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">School Name</label>
+                            <input id="school-name" name="school-name" type="text" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="Your School">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label for="exam-year" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Exam Year</label>
+                                <input id="exam-year" name="exam-year" type="number" min="2020" max="2030" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="2026">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="media" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Media</label>
+                                <select id="media" name="media" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold appearance-none">
+                                    <option value="">Select Media</option>
+                                    <option value="sinhala">Sinhala</option>
+                                    <option value="english">English</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label for="stream" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">A/L Stream</label>
+                                <select id="stream" name="stream" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold appearance-none">
+                                    <option value="">Select Stream</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="biology">Biology</option>
+                                    <option value="commerce">Commerce</option>
+                                    <option value="arts">Arts</option>
+                                    <option value="technology">Technology</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="institute" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Institute</label>
+                                <select id="institute" name="institute" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold appearance-none">
+                                    <option value="">Select Institute</option>
+                                    <option value="online">Online</option>
+                                    <option value="physical">Physical Class</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Information -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm">03</div>
+                            <h3 class="text-lg font-black text-slate-900 tracking-tight uppercase text-sm">Delivery Address</h3>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="address-line-1" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Address Line 1</label>
+                            <input id="address-line-1" name="address-line-1" type="text" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="Street Address">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label for="city" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">City</label>
+                                <input id="city" name="city" type="text" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="City">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="postal-code" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Postal Code</label>
+                                <input id="postal-code" name="postal-code" type="text" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="10000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                            <div class="relative flex justify-center py-4 px-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all transform active:scale-[0.98]">
+                                Complete Registration
+                            </div>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center">
+                    <p class="text-sm text-slate-500 font-semibold">
+                        Already have an account? 
+                        <a href="login.html" class="font-black text-blue-600 hover:text-blue-700 transition-colors underline-offset-4 hover:underline">Sign In Instead</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
