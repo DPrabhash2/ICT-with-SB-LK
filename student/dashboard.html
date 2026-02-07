@@ -61,6 +61,25 @@
         .animate-float { animation: floating 3s ease-in-out infinite; }
         .animate-blink { animation: blink 1.5s linear infinite; }
 
+        /* Dynamic Greeting Animations */
+        @keyframes sun-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-sun { animation: sun-spin 12s linear infinite; }
+
+        @keyframes moon-sway {
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(-5px) rotate(8deg); }
+        }
+        .animate-moon { animation: moon-sway 4s ease-in-out infinite; }
+
+        @keyframes ray-pulse {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.4)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.7)); transform: scale(1.05); }
+        }
+        .glow-sun { animation: ray-pulse 3s ease-in-out infinite; }
+
         /* Dark mode logo fix */
         .dark .dark-mode-logo {
             filter: invert(1) hue-rotate(180deg) brightness(1.2);
@@ -215,9 +234,12 @@
                 <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 
                 <div class="relative z-10 space-y-10">
-                    <div>
-                        <h2 class="text-2xl sm:text-4xl font-black text-slate-900 mb-2">Welcome back!</h2>
-                        <p class="text-lg text-slate-400 font-medium tracking-tight">Active Student Portal</p>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div id="greeting-icon" class="text-4xl sm:text-5xl flex items-center justify-center"></div>
+                        <div>
+                            <h2 id="greeting-text" class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">Welcome back!</h2>
+                            <p class="text-sm sm:text-lg text-slate-400 font-medium tracking-tight">Active Student Portal</p>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
@@ -326,6 +348,42 @@
                 }
             });
         });
+
+        // --- Dynamic Greeting Logic ---
+        function updateGreeting() {
+            const hours = new Date().getHours();
+            const icon = document.getElementById('greeting-icon');
+            const text = document.getElementById('greeting-text');
+            
+            // Try to get name from email or default to 'Dulshan' as requested
+            let userEmail = localStorage.getItem('userEmail') || '';
+            let firstName = userEmail.split('@')[0];
+            firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+            if (!firstName || firstName === 'True') firstName = 'Dulshan';
+
+            let greeting = "";
+            let iconHTML = "";
+
+            if (hours >= 5 && hours < 12) {
+                greeting = `Good Morning, ${firstName}!`;
+                iconHTML = '<i class="fa-solid fa-sun text-yellow-400 animate-sun glow-sun"></i>';
+            } else if (hours >= 12 && hours < 17) {
+                greeting = `Good Afternoon, ${firstName}!`;
+                iconHTML = '<i class="fa-solid fa-cloud-sun text-orange-400 animate-float"></i>';
+            } else if (hours >= 17 && hours < 21) {
+                greeting = `Good Evening, ${firstName}!`;
+                iconHTML = '<i class="fa-solid fa-cloud-moon text-indigo-400 animate-moon"></i>';
+            } else {
+                greeting = `Good Night, ${firstName}!`;
+                iconHTML = '<i class="fa-solid fa-moon text-blue-300 animate-moon"></i>';
+            }
+
+            text.innerText = greeting;
+            icon.innerHTML = iconHTML;
+        }
+        
+        // Initialize greeting
+        updateGreeting();
     </script>
 </body>
 </html>
