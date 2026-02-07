@@ -76,6 +76,23 @@
 </head>
 <body class="bg-[#f8fafc] text-slate-800 font-sans antialiased h-screen flex overflow-hidden">
 
+    <!-- Global Page Loader -->
+    <div id="page-loader" class="fixed inset-0 z-[100] bg-white/60 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="flex flex-col items-center">
+            <div class="relative w-16 h-16">
+                <!-- Outer Ring -->
+                <div class="absolute inset-0 border-4 border-blue-500/20 rounded-full"></div>
+                <!-- Animated Ring -->
+                <div class="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
+                <!-- Center Dot -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-2 h-2 bg-blue-600 rounded-full animate-ping"></div>
+                </div>
+            </div>
+            <p class="mt-4 text-[0.65rem] font-black uppercase tracking-[0.3em] text-blue-600 animate-pulse">Loading Portal</p>
+        </div>
+    </div>
+
     <!-- Background Decoration Blobs -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px] animate-pulse"></div>
@@ -290,6 +307,32 @@
             localStorage.removeItem('userEmail');
             window.location.href = '../login.html';
         }
+
+        // --- Page Transition Logic ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('page-loader');
+            if (loader) {
+                loader.classList.add('opacity-0');
+                setTimeout(() => loader.classList.add('pointer-events-none'), 500);
+            }
+        });
+
+        // Intercept all portal links for a smooth transition
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href !== '#' && !href.startsWith('javascript') && !this.target) {
+                    e.preventDefault();
+                    const loader = document.getElementById('page-loader');
+                    if (loader) {
+                        loader.classList.remove('opacity-0', 'pointer-events-none');
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 400); // 400ms delay for visual feedback
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
