@@ -13,8 +13,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
     <!-- Auth Guard -->
     <script>
@@ -225,26 +225,56 @@
                         <p class="text-[0.6rem] sm:text-[0.65rem] text-slate-400 font-black tracking-[0.2em] uppercase">Active Student Portal</p>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Mark Analyze Graph -->
-                        <div class="bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Mark Analysis</h3>
-                                <i class="fa-solid fa-chart-line text-blue-500 text-xs"></i>
+                    <div class="space-y-6">
+                        <!-- Paper Marks Analyze Graph -->
+                        <div class="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm relative overflow-hidden">
+                            <div class="flex items-center justify-between mb-8">
+                                <div>
+                                    <h3 class="text-lg font-black text-slate-900 tracking-tight">Paper Marks Analyze</h3>
+                                    <p class="text-[0.65rem] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Performance Tracking</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 cursor-pointer hover:bg-slate-100 transition-all">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="h-48">
-                                <canvas id="markChart"></canvas>
-                            </div>
+                            
+                            <div id="paperChart" class="min-h-[350px] w-full"></div>
                         </div>
 
-                        <!-- Study Time Analyzing Graph -->
-                        <div class="bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Study Time (Hours)</h3>
-                                <i class="fa-solid fa-clock text-emerald-500 text-xs"></i>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Study Time Info -->
+                            <div class="bg-slate-50/50 rounded-[2rem] p-6 border border-slate-100">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                        <i class="fa-solid fa-clock-pulse"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-black text-slate-900">Weekly Study Effort</h4>
+                                        <p class="text-[0.6rem] text-slate-400 font-bold uppercase tracking-widest">Active Progress</p>
+                                    </div>
+                                </div>
+                                <div id="effortChart"></div>
                             </div>
-                            <div class="h-48">
-                                <canvas id="studyChart"></canvas>
+
+                            <!-- Summary Card -->
+                            <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2rem] p-6 text-white relative overflow-hidden group">
+                                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                                <div class="relative z-10">
+                                    <h4 class="text-xl font-black mb-2 italic">"Aim for the Rank"</h4>
+                                    <p class="text-xs text-blue-100/80 mb-6 leading-relaxed">Your consistency is key to mastering ICT. Keep pushing boundaries!</p>
+                                    <div class="flex items-center gap-4">
+                                        <div class="px-4 py-2 bg-white/20 backdrop-blur-md rounded-xl">
+                                            <p class="text-[0.5rem] font-bold uppercase tracking-widest opacity-70">Avg. Score</p>
+                                            <p class="text-lg font-black">84.2%</p>
+                                        </div>
+                                        <div class="px-4 py-2 bg-white/20 backdrop-blur-md rounded-xl">
+                                            <p class="text-[0.5rem] font-bold uppercase tracking-widest opacity-70">Status</p>
+                                            <p class="text-lg font-black uppercase">Elite</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -347,60 +377,90 @@
             text.innerText = greeting;
         }
         
-        // --- Chart Initialization ---
+        // --- High-End Chart Initialization (ApexCharts) ---
         function initCharts() {
-            const ctxMark = document.getElementById('markChart').getContext('2d');
-            new Chart(ctxMark, {
-                type: 'bar',
-                data: {
-                    labels: ['Exam 1', 'Exam 2', 'Exam 3', 'Exam 4', 'Exam 5'],
-                    datasets: [{
-                        label: 'Marks',
-                        data: [75, 82, 78, 90, 85],
-                        backgroundColor: 'rgba(59, 130, 246, 0.5)',
-                        borderColor: 'rgb(59, 130, 246)',
-                        borderWidth: 2,
-                        borderRadius: 8,
-                    }]
+            // Main Paper Marks Chart
+            const paperOptions = {
+                series: [{
+                    name: 'Total',
+                    data: [85, 88, 86, 92, 90, 95]
+                }, {
+                    name: 'MCQ',
+                    data: [42, 45, 43, 48, 46, 49]
+                }, {
+                    name: 'Essay',
+                    data: [43, 43, 43, 44, 44, 46]
+                }],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: { show: true, tools: { download: false } },
+                    fontFamily: 'Inter, sans-serif',
+                    zoom: { enabled: true }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(0,0,0,0.05)' } },
-                        x: { grid: { display: false } }
+                colors: ['#3b82f6', '#10b981', '#f59e0b'],
+                dataLabels: { enabled: false },
+                stroke: { curve: 'smooth', width: 3 },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.45,
+                        opacityTo: 0.05,
+                        stops: [20, 100]
                     }
+                },
+                legend: {
+                    position: 'bottom',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    offsetY: 8,
+                    markers: { radius: 12 }
+                },
+                xaxis: {
+                    categories: ['Paper 01', 'Paper 02', 'Paper 03', 'Paper 04', 'Paper 05', 'Paper 06'],
+                    labels: { style: { colors: '#94a3b8', fontWeight: 600 } }
+                },
+                yaxis: {
+                    labels: { style: { colors: '#94a3b8', fontWeight: 600 } }
+                },
+                grid: { borderColor: '#f1f5f9' },
+                tooltip: {
+                    theme: 'dark',
+                    x: { show: true },
+                    y: { formatter: (val) => val + " Marks" }
                 }
-            });
+            };
 
-            const ctxStudy = document.getElementById('studyChart').getContext('2d');
-            new Chart(ctxStudy, {
-                type: 'line',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [{
-                        label: 'Hours',
-                        data: [2, 4, 3, 5, 2, 6, 4],
-                        borderColor: 'rgb(16, 185, 129)',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        pointBackgroundColor: 'rgb(16, 185, 129)'
-                    }]
+            const paperChart = new ApexCharts(document.querySelector("#paperChart"), paperOptions);
+            paperChart.render();
+
+            // Effort Sparkline
+            const effortOptions = {
+                series: [{
+                    data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
+                }],
+                chart: {
+                    type: 'area',
+                    height: 80,
+                    sparkline: { enabled: true },
+                    animations: { enabled: true }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
-                        x: { grid: { display: false } }
+                colors: ['#10b981'],
+                stroke: { curve: 'smooth', width: 2 },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.4,
+                        opacityTo: 0,
                     }
-                }
-            });
+                },
+                tooltip: { theme: 'dark', fixed: { enabled: false }, x: { show: false }, marker: { show: false } }
+            };
+
+            const effortChart = new ApexCharts(document.querySelector("#effortChart"), effortOptions);
+            effortChart.render();
         }
         
         // Initialize everything
