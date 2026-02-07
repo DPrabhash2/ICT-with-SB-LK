@@ -61,48 +61,36 @@
         .animate-float { animation: floating 3s ease-in-out infinite; }
         .animate-blink { animation: blink 1.5s linear infinite; }
 
-        /* Natural Organic Sticker (Claymorphism Style) */
-        .clay-sticker {
+        /* Elegant Glass Badge */
+        .glass-badge {
             position: relative;
-            width: 100px;
-            height: 100px;
-            background: #ffffff;
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 
-                20px 20px 60px #d9d9d9,
-                -20px -20px 60px #ffffff,
-                inset 10px 10px 20px rgba(0,0,0,0.05),
-                inset -10px -10px 20px rgba(255,255,255,0.8);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: organic-wobble 8s ease-in-out infinite;
+                0 10px 25px -5px rgba(0, 0, 0, 0.04),
+                inset 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: all 0.4s ease;
         }
         
-        .clay-sticker:hover {
-            transform: scale(1.1) rotate(3deg);
-            border-radius: 50%;
+        .glass-badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            background: white;
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.08);
         }
-
-        @keyframes organic-wobble {
-            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            33% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%; }
-            66% { border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%; }
-        }
-
-        @keyframes sticker-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        .animate-sticker-float { animation: sticker-float 4s ease-in-out infinite; }
 
         .sun-glow {
-            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6));
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
         }
         
         .moon-glow {
-            filter: drop-shadow(0 0 15px rgba(129, 140, 248, 0.4));
+            filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.3));
         }
 
         /* Dark mode logo fix */
@@ -259,20 +247,20 @@
                 <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 
                 <div class="relative z-10 space-y-6">
-                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-4">
+                    <div class="flex items-center gap-5 mb-2">
                         <div id="greeting-icon" class="relative"></div>
-                        <div class="text-center sm:text-left">
-                            <h2 id="greeting-text" class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-1">Welcome!</h2>
-                            <p class="text-sm sm:text-lg text-slate-400 font-bold tracking-tight uppercase">Active Student Portal</p>
+                        <div class="text-left">
+                            <h2 id="greeting-text" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">Welcome!</h2>
+                            <p class="text-[0.6rem] sm:text-[0.65rem] text-slate-400 font-black tracking-[0.2em] uppercase">Active Student Portal</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
                         <!-- Content Coming Soon (Study Rocket) -->
-                        <div class="flex flex-col items-center justify-center p-4 lg:col-span-2">
+                        <div class="flex flex-col items-center justify-center p-2 lg:col-span-2">
                             <!-- Rocket Illustration -->
-                            <div class="relative mb-6">
-                                <div class="w-36 h-36 md:w-44 md:h-44 bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-2xl flex items-center justify-center animate-float overflow-hidden">
+                            <div class="relative mb-4">
+                                <div class="w-32 h-32 md:w-36 md:h-36 bg-white dark:bg-slate-800 rounded-3xl shadow-xl flex items-center justify-center animate-float overflow-hidden">
                                     <div class="relative">
                                         <!-- Rocket Body -->
                                         <div class="w-16 h-28 bg-gradient-to-b from-slate-100 to-slate-200 rounded-full relative border-x-4 border-slate-300 shadow-xl overflow-hidden">
@@ -392,31 +380,26 @@
             if (hours >= 5 && hours < 12) {
                 greeting = `Good Morning, ${firstName}!`;
                 iconHTML = `
-                    <div class="clay-sticker animate-sticker-float">
-                        <i class="fa-solid fa-sun text-5xl text-yellow-400 sun-glow"></i>
-                        <i class="fa-solid fa-cloud absolute -top-1 -right-1 text-2xl text-slate-100/90 [animation:sticker-float_3s_infinite]"></i>
+                    <div class="glass-badge">
+                        <i class="fa-solid fa-sun text-2xl text-yellow-400 sun-glow"></i>
                     </div>`;
             } else if (hours >= 12 && hours < 17) {
                 greeting = `Good Afternoon, ${firstName}!`;
                 iconHTML = `
-                    <div class="clay-sticker animate-sticker-float">
-                        <i class="fa-solid fa-sun text-5xl text-orange-400 sun-glow"></i>
-                        <i class="fa-solid fa-smog absolute bottom-2 right-2 text-3xl text-slate-200"></i>
+                    <div class="glass-badge">
+                        <i class="fa-solid fa-cloud-sun text-2xl text-orange-400 sun-glow"></i>
                     </div>`;
             } else if (hours >= 17 && hours < 21) {
                 greeting = `Good Evening, ${firstName}!`;
                 iconHTML = `
-                    <div class="clay-sticker animate-sticker-float bg-indigo-50">
-                        <i class="fa-solid fa-cloud-moon text-5xl text-indigo-500 moon-glow"></i>
-                        <i class="fa-solid fa-sparkles absolute top-2 right-2 text-yellow-300 animate-pulse"></i>
+                    <div class="glass-badge">
+                        <i class="fa-solid fa-cloud-moon text-2xl text-indigo-500 moon-glow"></i>
                     </div>`;
             } else {
                 greeting = `Good Night, ${firstName}!`;
                 iconHTML = `
-                    <div class="clay-sticker animate-sticker-float bg-slate-100">
-                        <i class="fa-solid fa-moon text-5xl text-slate-400 moon-glow"></i>
-                        <i class="fa-solid fa-star absolute top-4 right-4 text-yellow-200 animate-pulse"></i>
-                        <i class="fa-solid fa-star absolute bottom-6 left-4 text-xs text-yellow-200 animate-pulse [animation-delay:1s]"></i>
+                    <div class="glass-badge">
+                        <i class="fa-solid fa-moon text-2xl text-slate-400 moon-glow"></i>
                     </div>`;
             }
 
