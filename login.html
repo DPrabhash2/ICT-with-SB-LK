@@ -244,9 +244,14 @@
             submitBtn.classList.add('opacity-80', 'pointer-events-none');
 
             setTimeout(() => {
-                // Professional Admin Credentials Simulation
-                if (isAdminMode || email === 'admin@sict.lk') {
-                    if (password === 'admin123') {
+                // Multi-Admin Credentials Logic
+                const adminUsers = {
+                    'admin@sict.lk': 'admin123',
+                    'shanthabandara@sict.lk': 'sb@admin99'
+                };
+
+                if (isAdminMode || adminUsers[email]) {
+                    if (adminUsers[email] === password) {
                         localStorage.setItem('isAdmin', 'true');
                         localStorage.setItem('isAuthenticated', 'true');
                         localStorage.setItem('userEmail', email);

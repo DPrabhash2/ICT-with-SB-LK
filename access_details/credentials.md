@@ -5,11 +5,16 @@ This document contains the access details for the ICT with SB Admin Portal.
 
 ---
 
-### 🔑 Primary Admin Login
+### 🔑 01. Primary Admin (System)
 
 - **URL:** [login.html](../login.html) (Switch to 'Admin Access' mode)
 - **Email:** `admin@sict.lk`
 - **Password:** `admin123`
+
+### 🔑 02. Secondary Admin (Official)
+
+- **Email:** `shanthabandara@sict.lk`
+- **Password:** `sb@admin99`
 
 ---
 
