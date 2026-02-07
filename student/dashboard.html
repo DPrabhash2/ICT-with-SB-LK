@@ -61,50 +61,49 @@
         .animate-float { animation: floating 3s ease-in-out infinite; }
         .animate-blink { animation: blink 1.5s linear infinite; }
 
-        /* Natural Sticker Feel */
-        .natural-sticker {
+        /* Natural Organic Sticker (Claymorphism Style) */
+        .clay-sticker {
             position: relative;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
+            width: 100px;
+            height: 100px;
+            background: #ffffff;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 
-                0 10px 20px -5px rgba(0, 0, 0, 0.05),
-                inset 0 0 15px rgba(255, 255, 255, 0.5);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+                20px 20px 60px #d9d9d9,
+                -20px -20px 60px #ffffff,
+                inset 10px 10px 20px rgba(0,0,0,0.05),
+                inset -10px -10px 20px rgba(255,255,255,0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: organic-wobble 8s ease-in-out infinite;
         }
-        .natural-sticker:hover {
-            transform: scale(1.1) rotate(5deg);
+        
+        .clay-sticker:hover {
+            transform: scale(1.1) rotate(3deg);
+            border-radius: 50%;
         }
 
-        @keyframes sun-rise {
-            0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.6)); }
-            50% { transform: scale(1.3); filter: drop-shadow(0 0 25px rgba(255, 193, 7, 0.8)); }
+        @keyframes organic-wobble {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            33% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%; }
+            66% { border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%; }
         }
-        .sticker-sun { animation: sun-rise 4s ease-in-out infinite; }
 
-        @keyframes cloud-drift {
-            0%, 100% { transform: translateX(-5px) translateY(0); opacity: 0.8; }
-            50% { transform: translateX(5px) translateY(-5px); opacity: 1; }
+        @keyframes sticker-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        .sticker-cloud { animation: cloud-drift 5s ease-in-out infinite; }
+        .animate-sticker-float { animation: sticker-float 4s ease-in-out infinite; }
 
-        @keyframes star-twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+        .sun-glow {
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6));
         }
-        .sticker-star { animation: star-twinkle 2s ease-in-out infinite; }
-
-        @keyframes moon-rotate {
-            0%, 100% { transform: rotate(-10deg) scale(1); }
-            50% { transform: rotate(10deg) scale(1.1); }
+        
+        .moon-glow {
+            filter: drop-shadow(0 0 15px rgba(129, 140, 248, 0.4));
         }
-        .sticker-moon { animation: moon-rotate 6s ease-in-out infinite; }
 
         /* Dark mode logo fix */
         .dark .dark-mode-logo {
@@ -393,32 +392,31 @@
             if (hours >= 5 && hours < 12) {
                 greeting = `Good Morning, ${firstName}!`;
                 iconHTML = `
-                    <div class="natural-sticker">
-                        <i class="fa-solid fa-sun text-4xl text-yellow-400 sticker-sun"></i>
-                        <i class="fa-solid fa-cloud absolute -right-2 top-0 text-xl text-slate-200/80 sticker-cloud"></i>
+                    <div class="clay-sticker animate-sticker-float">
+                        <i class="fa-solid fa-sun text-5xl text-yellow-400 sun-glow"></i>
+                        <i class="fa-solid fa-cloud absolute -top-1 -right-1 text-2xl text-slate-100/90 [animation:sticker-float_3s_infinite]"></i>
                     </div>`;
             } else if (hours >= 12 && hours < 17) {
                 greeting = `Good Afternoon, ${firstName}!`;
                 iconHTML = `
-                    <div class="natural-sticker">
-                        <i class="fa-solid fa-sun text-4xl text-orange-400 sticker-sun"></i>
-                        <i class="fa-solid fa-cloud absolute right-2 bottom-2 text-2xl text-slate-300 sticker-cloud"></i>
+                    <div class="clay-sticker animate-sticker-float">
+                        <i class="fa-solid fa-sun text-5xl text-orange-400 sun-glow"></i>
+                        <i class="fa-solid fa-smog absolute bottom-2 right-2 text-3xl text-slate-200"></i>
                     </div>`;
             } else if (hours >= 17 && hours < 21) {
                 greeting = `Good Evening, ${firstName}!`;
                 iconHTML = `
-                    <div class="natural-sticker bg-indigo-50/50">
-                        <i class="fa-solid fa-moon text-4xl text-indigo-400 sticker-moon"></i>
-                        <i class="fa-solid fa-star absolute top-2 right-4 text-[0.6rem] text-yellow-200 sticker-star"></i>
-                        <i class="fa-solid fa-star absolute bottom-4 left-4 text-[0.4rem] text-yellow-200 sticker-star [animation-delay:1s]"></i>
+                    <div class="clay-sticker animate-sticker-float bg-indigo-50">
+                        <i class="fa-solid fa-cloud-moon text-5xl text-indigo-500 moon-glow"></i>
+                        <i class="fa-solid fa-sparkles absolute top-2 right-2 text-yellow-300 animate-pulse"></i>
                     </div>`;
             } else {
                 greeting = `Good Night, ${firstName}!`;
                 iconHTML = `
-                    <div class="natural-sticker bg-slate-900/10">
-                        <i class="fa-solid fa-moon text-4xl text-slate-400 sticker-moon"></i>
-                        <i class="fa-solid fa-cloud absolute bottom-1 right-1 text-xl text-slate-300/50 sticker-cloud"></i>
-                        <i class="fa-solid fa-star absolute top-3 left-3 text-[0.5rem] text-blue-200 sticker-star"></i>
+                    <div class="clay-sticker animate-sticker-float bg-slate-100">
+                        <i class="fa-solid fa-moon text-5xl text-slate-400 moon-glow"></i>
+                        <i class="fa-solid fa-star absolute top-4 right-4 text-yellow-200 animate-pulse"></i>
+                        <i class="fa-solid fa-star absolute bottom-6 left-4 text-xs text-yellow-200 animate-pulse [animation-delay:1s]"></i>
                     </div>`;
             }
 
