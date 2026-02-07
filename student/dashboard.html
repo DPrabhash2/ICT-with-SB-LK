@@ -379,17 +379,32 @@
         
         // --- High-End Chart Initialization (ApexCharts) ---
         function initCharts() {
+            // Fetch dynamic data if available
+            const savedData = JSON.parse(localStorage.getItem('paperResults') || '[]');
+            
+            let series_total = [85, 88, 86, 92, 90, 95];
+            let series_mcq = [42, 45, 43, 48, 46, 49];
+            let series_essay = [43, 43, 43, 44, 44, 46];
+            let categories = ['Paper 01', 'Paper 02', 'Paper 03', 'Paper 04', 'Paper 05', 'Paper 06'];
+
+            if(savedData.length > 0) {
+                series_total = savedData.map(d => d.total);
+                series_mcq = savedData.map(d => d.mcq);
+                series_essay = savedData.map(d => d.essay);
+                categories = savedData.map(d => d.paper);
+            }
+
             // Main Paper Marks Chart
             const paperOptions = {
                 series: [{
                     name: 'Total',
-                    data: [85, 88, 86, 92, 90, 95]
+                    data: series_total
                 }, {
                     name: 'MCQ',
-                    data: [42, 45, 43, 48, 46, 49]
+                    data: series_mcq
                 }, {
                     name: 'Essay',
-                    data: [43, 43, 43, 44, 44, 46]
+                    data: series_essay
                 }],
                 chart: {
                     height: 350,
@@ -418,7 +433,7 @@
                     markers: { radius: 12 }
                 },
                 xaxis: {
-                    categories: ['Paper 01', 'Paper 02', 'Paper 03', 'Paper 04', 'Paper 05', 'Paper 06'],
+                    categories: categories,
                     labels: { style: { colors: '#94a3b8', fontWeight: 600 } }
                 },
                 yaxis: {
