@@ -171,11 +171,16 @@
                     </button>
                 </div>
 
-                <div class="text-center">
+                <div class="text-center space-y-4">
                     <p class="text-sm text-slate-500 font-semibold">
                         Don't have an account? 
                         <a href="register.html" class="font-black text-blue-600 hover:text-blue-700 transition-colors underline-offset-4 hover:underline">Register Now</a>
                     </p>
+                    <div class="pt-2">
+                        <button onclick="switchToAdmin()" id="adminToggle" class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-blue-500 transition-colors">
+                            <i class="fa-solid fa-shield-user mr-1"></i> Staff & Admin Access
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -191,16 +196,29 @@
         let loginAttempts = 0;
         const MAX_ATTEMPTS = 5;
 
-        // Toggle Password Visibility
-        function togglePassword(id) {
-            const input = document.getElementById(id);
-            const icon = document.getElementById(id + '-icon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
+        let isAdminMode = false;
+
+        function switchToAdmin() {
+            isAdminMode = !isAdminMode;
+            const title = document.querySelector('h2');
+            const btn = document.getElementById('btnText');
+            const badge = document.querySelector('.inline-flex.px-4');
+            const adminToggle = document.getElementById('adminToggle');
+
+            if (isAdminMode) {
+                title.innerText = 'Admin Login';
+                btn.innerText = 'Enter Admin Panel';
+                badge.innerText = 'Restricted Access';
+                badge.classList.replace('bg-blue-50', 'bg-slate-900');
+                badge.classList.replace('text-blue-600', 'text-white');
+                adminToggle.innerHTML = '<i class="fa-solid fa-user-graduate mr-1"></i> Back to Student Login';
             } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
+                title.innerText = 'Sign In';
+                btn.innerText = 'Sign In to Portal';
+                badge.innerText = 'Welcome Back';
+                badge.classList.replace('bg-slate-900', 'bg-blue-50');
+                badge.classList.replace('text-white', 'text-blue-600');
+                adminToggle.innerHTML = '<i class="fa-solid fa-shield-user mr-1"></i> Staff & Admin Access';
             }
         }
 
@@ -217,26 +235,37 @@
                 return;
             }
 
-            // Sanitization (Prevent basic XSS)
             const email = document.getElementById('email').value.replace(/[<>]/g, '');
             const password = document.getElementById('password').value;
 
             // Start Loading State
-            btnText.innerText = 'Encrypting & Verifying...';
+            btnText.innerText = 'Verifying Credentials...';
             loader.classList.remove('hidden');
             submitBtn.classList.add('opacity-80', 'pointer-events-none');
 
-            // Simulate Security Delay (Proof of Work/Encryption delay)
             setTimeout(() => {
-                // In a real app, we would send 'email' and 'password' via HTTPS to a secure backend
-                // and receive a JWT (JSON Web Token) to store in an HTTP-only cookie.
-                
-                // For demonstration:
-                localStorage.setItem('isAuthenticated', 'true');
-                localStorage.setItem('userEmail', email);
-                
-                window.location.href = 'student/dashboard.html';
-            }, 2000);
+                // Professional Admin Credentials Simulation
+                if (isAdminMode || email === 'admin@sict.lk') {
+                    if (password === 'admin123') {
+                        localStorage.setItem('isAdmin', 'true');
+                        localStorage.setItem('isAuthenticated', 'true');
+                        localStorage.setItem('userEmail', email);
+                        window.location.href = 'admin/dashboard.html';
+                    } else {
+                        btnText.innerText = isAdminMode ? 'Enter Admin Panel' : 'Sign In to Portal';
+                        loader.classList.add('hidden');
+                        submitBtn.classList.remove('opacity-80', 'pointer-events-none');
+                        loginAttempts++;
+                        Swal.fire({ icon: 'error', title: 'Invalid Admin Credentials', text: 'Access denied. Please check your admin key.' });
+                    }
+                } else {
+                    // Student Login
+                    localStorage.setItem('isAuthenticated', 'true');
+                    localStorage.setItem('isAdmin', 'false');
+                    localStorage.setItem('userEmail', email);
+                    window.location.href = 'student/dashboard.html';
+                }
+            }, 1500);
         });
 
         // Simulate Social Login with CSRF check simulation
