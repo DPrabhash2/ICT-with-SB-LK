@@ -13,6 +13,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <!-- Auth Guard -->
     <script>
         if (localStorage.getItem('isAuthenticated') !== 'true') {
@@ -61,38 +64,6 @@
         .animate-float { animation: floating 3s ease-in-out infinite; }
         .animate-blink { animation: blink 1.5s linear infinite; }
 
-        /* Elegant Glass Badge */
-        .glass-badge {
-            position: relative;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 
-                0 10px 25px -5px rgba(0, 0, 0, 0.04),
-                inset 0 0 10px rgba(255, 255, 255, 0.5);
-            transition: all 0.4s ease;
-        }
-        
-        .glass-badge:hover {
-            transform: translateY(-3px) scale(1.05);
-            background: white;
-            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.08);
-        }
-
-        .sun-glow {
-            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
-        }
-        
-        .moon-glow {
-            filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.3));
-        }
-
         /* Dark mode logo fix */
         .dark .dark-mode-logo {
             filter: invert(1) hue-rotate(180deg) brightness(1.2);
@@ -104,6 +75,8 @@
         .dark .text-slate-800 { color: #f1f5f9 !important; }
         .dark .text-slate-500 { color: #94a3b8 !important; }
         .dark .border-slate-100, .dark .border-slate-200 { border-color: #334155 !important; }
+        
+        canvas { width: 100% !important; height: auto !important; }
     </style>
 </head>
 <body class="bg-[#f8fafc] text-slate-800 font-sans antialiased h-screen flex overflow-hidden">
@@ -247,47 +220,31 @@
                 <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 
                 <div class="relative z-10 space-y-6">
-                    <div class="flex items-center gap-5 mb-2">
-                        <div id="greeting-icon" class="relative"></div>
-                        <div class="text-left">
-                            <h2 id="greeting-text" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">Welcome!</h2>
-                            <p class="text-[0.6rem] sm:text-[0.65rem] text-slate-400 font-black tracking-[0.2em] uppercase">Active Student Portal</p>
-                        </div>
+                    <div class="mb-6">
+                        <h2 id="greeting-text" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">Welcome!</h2>
+                        <p class="text-[0.6rem] sm:text-[0.65rem] text-slate-400 font-black tracking-[0.2em] uppercase">Active Student Portal</p>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-                        <!-- Content Coming Soon (Study Rocket) -->
-                        <div class="flex flex-col items-center justify-center p-2 lg:col-span-2">
-                            <!-- Rocket Illustration -->
-                            <div class="relative mb-4">
-                                <div class="w-32 h-32 md:w-36 md:h-36 bg-white dark:bg-slate-800 rounded-3xl shadow-xl flex items-center justify-center animate-float overflow-hidden">
-                                    <div class="relative">
-                                        <!-- Rocket Body -->
-                                        <div class="w-16 h-28 bg-gradient-to-b from-slate-100 to-slate-200 rounded-full relative border-x-4 border-slate-300 shadow-xl overflow-hidden">
-                                            <!-- Window -->
-                                            <div class="absolute top-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-400 rounded-full border-4 border-slate-300 flex items-center justify-center overflow-hidden">
-                                                <div class="w-full h-full bg-gradient-to-tr from-blue-500 to-blue-300"></div>
-                                                <div class="absolute top-1 left-1 w-2 h-2 bg-white/40 rounded-full"></div>
-                                            </div>
-                                            <!-- Stripes -->
-                                            <div class="absolute bottom-4 left-0 w-full h-4 bg-red-500"></div>
-                                        </div>
-                                        <!-- Fins -->
-                                        <div class="absolute -bottom-2 -left-6 w-10 h-16 bg-red-600 rounded-l-full -rotate-12"></div>
-                                        <div class="absolute -bottom-2 -right-6 w-10 h-16 bg-red-600 rounded-r-full rotate-12"></div>
-                                        <!-- Fire/Exhaust -->
-                                        <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-10 h-16 bg-gradient-to-t from-orange-500 via-yellow-400 to-transparent rounded-full animate-pulse blur-sm"></div>
-                                        <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-6 h-10 bg-white/80 rounded-full animate-ping"></div>
-                                    </div>
-                                </div>
-                                <div class="absolute inset-0 bg-red-500/10 blur-3xl -z-10 rounded-full"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Mark Analyze Graph -->
+                        <div class="bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Mark Analysis</h3>
+                                <i class="fa-solid fa-chart-line text-blue-500 text-xs"></i>
                             </div>
-                            
-                            <div class="text-center">
-                                <h3 class="text-2xl md:text-3xl font-black text-slate-900 mb-2 tracking-tighter italic">"Ready for Liftoff?"</h3>
-                                <p class="text-slate-400 text-sm md:text-base font-medium max-w-sm mx-auto leading-relaxed">
-                                    Your learning journey is primed and ready. We're finalizing your personalized study materials!
-                                </p>
+                            <div class="h-48">
+                                <canvas id="markChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Study Time Analyzing Graph -->
+                        <div class="bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Study Time (Hours)</h3>
+                                <i class="fa-solid fa-clock text-emerald-500 text-xs"></i>
+                            </div>
+                            <div class="h-48">
+                                <canvas id="studyChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -379,36 +336,76 @@
 
             if (hours >= 5 && hours < 12) {
                 greeting = `Good Morning, ${firstName}!`;
-                iconHTML = `
-                    <div class="glass-badge">
-                        <i class="fa-solid fa-sun text-2xl text-yellow-400 sun-glow"></i>
-                    </div>`;
             } else if (hours >= 12 && hours < 17) {
                 greeting = `Good Afternoon, ${firstName}!`;
-                iconHTML = `
-                    <div class="glass-badge">
-                        <i class="fa-solid fa-cloud-sun text-2xl text-orange-400 sun-glow"></i>
-                    </div>`;
             } else if (hours >= 17 && hours < 21) {
                 greeting = `Good Evening, ${firstName}!`;
-                iconHTML = `
-                    <div class="glass-badge">
-                        <i class="fa-solid fa-cloud-moon text-2xl text-indigo-500 moon-glow"></i>
-                    </div>`;
             } else {
                 greeting = `Good Night, ${firstName}!`;
-                iconHTML = `
-                    <div class="glass-badge">
-                        <i class="fa-solid fa-moon text-2xl text-slate-400 moon-glow"></i>
-                    </div>`;
             }
 
             text.innerText = greeting;
-            icon.innerHTML = iconHTML;
         }
         
-        // Initialize greeting
+        // --- Chart Initialization ---
+        function initCharts() {
+            const ctxMark = document.getElementById('markChart').getContext('2d');
+            new Chart(ctxMark, {
+                type: 'bar',
+                data: {
+                    labels: ['Exam 1', 'Exam 2', 'Exam 3', 'Exam 4', 'Exam 5'],
+                    datasets: [{
+                        label: 'Marks',
+                        data: [75, 82, 78, 90, 85],
+                        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 2,
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(0,0,0,0.05)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            const ctxStudy = document.getElementById('studyChart').getContext('2d');
+            new Chart(ctxStudy, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Hours',
+                        data: [2, 4, 3, 5, 2, 6, 4],
+                        borderColor: 'rgb(16, 185, 129)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgb(16, 185, 129)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+        
+        // Initialize everything
         updateGreeting();
+        initCharts();
     </script>
 </body>
 </html>
