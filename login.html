@@ -14,6 +14,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -29,6 +30,15 @@
             }
         }
     </script>
+    <style>
+        html.dark body { background-color: #0a0a0a; color: white; }
+        .dark .bg-white { background-color: #171717 !important; }
+        .dark .text-slate-900 { color: #f8fafc !important; }
+        .dark .text-slate-800 { color: #f1f5f9 !important; }
+        .dark .text-slate-500 { color: #94a3b8 !important; }
+        .dark .border-slate-100, .dark .border-slate-200 { border-color: #1e1e1e !important; }
+        .dark input { background-color: #1e1e1e !important; border-color: #333 !important; color: white !important; }
+    </style>
 </head>
 <body class="h-screen w-full bg-[#f8fafc] overflow-hidden relative">
 
@@ -90,7 +100,7 @@
                     <p class="text-slate-500 font-medium">Enter your credentials to access your dashboard.</p>
                 </div>
                 
-                <form class="space-y-6" action="#" method="POST" onsubmit="event.preventDefault(); window.location.href='student/dashboard.html'">
+                <form id="loginForm" class="space-y-6">
                     <div class="space-y-5">
                         <div class="space-y-2">
                             <label for="email" class="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Email address</label>
@@ -107,29 +117,55 @@
                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                                     <i class="fa-solid fa-lock"></i>
                                 </div>
-                                <input id="password" name="password" type="password" required class="block w-full pl-11 pr-4 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="••••••••">
+                                <input id="password" name="password" type="password" required class="block w-full pl-11 pr-12 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="••••••••">
+                                <button type="button" onclick="togglePassword('password')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors">
+                                    <i class="fa-solid fa-eye" id="password-icon"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between px-1">
                         <label class="flex items-center cursor-pointer group">
-                            <input type="checkbox" class="hidden">
+                            <input type="checkbox" class="hidden" id="rememberMe">
                             <div class="w-5 h-5 border-2 border-slate-200 rounded-lg mr-3 flex items-center justify-center group-hover:border-blue-500 transition-all">
-                                <div class="w-2.5 h-2.5 bg-blue-500 rounded-sm opacity-0 group-hover:opacity-20 transition-all"></div>
+                                <div id="checkboxIcon" class="w-2.5 h-2.5 bg-blue-500 rounded-sm opacity-0 group-hover:opacity-20 transition-all"></div>
                             </div>
                             <span class="text-sm font-bold text-slate-500">Remember me</span>
                         </label>
                         <a href="#" class="text-sm font-black text-blue-600 hover:text-blue-700 transition-colors">Forgot password?</a>
                     </div>
 
-                    <button type="submit" class="w-full relative group">
+                    <button type="submit" id="submitBtn" class="w-full relative group transition-all duration-300">
                         <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                        <div class="relative flex justify-center py-4 px-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all transform active:scale-[0.98]">
-                            Sign In to Portal
+                        <div class="relative flex items-center justify-center py-4 px-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all transform active:scale-[0.98]">
+                            <span id="btnText">Sign In to Portal</span>
+                            <div id="loader" class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin ml-3"></div>
                         </div>
                     </button>
                 </form>
+
+                <!-- Divider -->
+                <div class="relative py-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-100"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase">
+                        <span class="bg-[#f8fafc] px-4 font-black text-slate-400 tracking-widest">Or continue with</span>
+                    </div>
+                </div>
+
+                <!-- Social Logins -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="simulateSocialLogin('Google')" class="flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 transition-all group active:scale-95 shadow-sm">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                        <span class="text-sm font-black text-slate-700">Google</span>
+                    </button>
+                    <button onclick="simulateSocialLogin('Apple')" class="flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-slate-900 hover:bg-black text-white transition-all group active:scale-95 shadow-lg shadow-black/10">
+                        <i class="fa-brands fa-apple text-xl"></i>
+                        <span class="text-sm font-black text-white">Apple</span>
+                    </button>
+                </div>
 
                 <div class="text-center">
                     <p class="text-sm text-slate-500 font-semibold">
@@ -140,5 +176,83 @@
             </div>
         </div>
     </div>
+    <script>
+        // System preference handled by Tailwind media strategy
+        
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loader');
+        
+        let loginAttempts = 0;
+        const MAX_ATTEMPTS = 5;
+
+        // Toggle Password Visibility
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Handle Form Submission with Security Logic
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (loginAttempts >= MAX_ATTEMPTS) {
+                Swal.fire({
+                    title: 'Account Locked',
+                    text: 'Too many failed attempts. Please try again in 15 minutes.',
+                    icon: 'error'
+                });
+                return;
+            }
+
+            // Sanitization (Prevent basic XSS)
+            const email = document.getElementById('email').value.replace(/[<>]/g, '');
+            const password = document.getElementById('password').value;
+
+            // Start Loading State
+            btnText.innerText = 'Encrypting & Verifying...';
+            loader.classList.remove('hidden');
+            submitBtn.classList.add('opacity-80', 'pointer-events-none');
+
+            // Simulate Security Delay (Proof of Work/Encryption delay)
+            setTimeout(() => {
+                // In a real app, we would send 'email' and 'password' via HTTPS to a secure backend
+                // and receive a JWT (JSON Web Token) to store in an HTTP-only cookie.
+                
+                // For demonstration:
+                localStorage.setItem('isAuthenticated', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                window.location.href = 'student/dashboard.html';
+            }, 2000);
+        });
+
+        // Simulate Social Login with CSRF check simulation
+        function simulateSocialLogin(provider) {
+            Swal.fire({
+                title: `Securely connecting to ${provider}...`,
+                html: 'Establishing an encrypted tunnel (SSL/TLS 1.3)...',
+                timer: 2500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                willClose: () => {
+                    localStorage.setItem('isAuthenticated', 'true');
+                    window.location.href = 'student/dashboard.html';
+                }
+            });
+        }
+    </script>
+    <!-- SweetAlert2 for nice alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

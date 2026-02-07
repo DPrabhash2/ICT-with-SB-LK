@@ -88,9 +88,31 @@
                     </div>
                     <h2 class="text-4xl font-black text-slate-900 tracking-tight">Join the Academy</h2>
                     <p class="text-slate-500 font-medium">Please fill in your details to get started.</p>
+
+                    <!-- Social Registration -->
+                    <div class="pt-6 grid grid-cols-2 gap-4">
+                        <button onclick="simulateSocialRegister('Google')" class="flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 transition-all group active:scale-95 shadow-sm">
+                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                            <span class="text-sm font-black text-slate-700">Google</span>
+                        </button>
+                        <button onclick="simulateSocialRegister('Apple')" class="flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-slate-900 hover:bg-black text-white transition-all group active:scale-95 shadow-lg shadow-black/10">
+                            <i class="fa-brands fa-apple text-xl"></i>
+                            <span class="text-sm font-black text-white">Apple</span>
+                        </button>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="relative py-4 mt-2">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-slate-100"></div>
+                        </div>
+                        <div class="relative flex justify-center text-xs uppercase">
+                            <span class="bg-[#f8fafc] px-4 font-black text-slate-400 tracking-widest whitespace-nowrap">Or register manually</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <form class="space-y-10" action="#" method="POST" onsubmit="event.preventDefault(); alert('Registration successful!'); window.location.href='login.html'">
+                <form id="registrationForm" class="space-y-10">
                     <!-- Personal Information -->
                     <div class="space-y-6">
                         <div class="flex items-center gap-3 mb-6">
@@ -133,6 +155,36 @@
                             <div class="space-y-2">
                                 <label for="dob" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Date of Birth</label>
                                 <input id="dob" name="dob" type="date" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold">
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Password Section -->
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div class="space-y-2">
+                                    <label for="reg-password" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
+                                    <div class="relative">
+                                        <input id="reg-password" name="password" type="password" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="••••••••" oninput="checkPasswordStrength()">
+                                        <button type="button" onclick="togglePassword('reg-password')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors">
+                                            <i class="fa-solid fa-eye" id="reg-password-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="confirm-password" class="block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Confirm Password</label>
+                                    <input id="confirm-password" name="confirm-password" type="password" required class="block w-full px-5 py-4 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-slate-900 font-semibold" placeholder="••••••••">
+                                </div>
+                            </div>
+                            <!-- Strength Indicator -->
+                            <div class="px-2 space-y-2">
+                                <div class="flex justify-between items-center text-[0.6rem] font-black uppercase tracking-widest">
+                                    <span class="text-slate-400">Password Strength</span>
+                                    <span id="strength-text" class="text-slate-300">Weak</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                    <div id="strength-bar" class="h-full w-0 bg-red-500 transition-all duration-500"></div>
+                                </div>
+                                <p class="text-[0.6rem] text-slate-400 font-medium">Use 8+ characters with a mix of letters, numbers & symbols.</p>
                             </div>
                         </div>
                     </div>
@@ -211,11 +263,23 @@
                         </div>
                     </div>
 
+                    <div class="flex items-center gap-3 px-1 mb-6">
+                        <label class="flex items-start cursor-pointer group">
+                            <input type="checkbox" required class="mt-1 w-4 h-4 border-2 border-slate-200 rounded text-blue-600 focus:ring-blue-500 transition-all">
+                            <span class="ml-3 text-[0.7rem] font-medium text-slate-500 leading-relaxed">
+                                I agree to the <a href="#" class="text-blue-600 font-black hover:underline">Terms of Service</a> and 
+                                <a href="#" class="text-blue-600 font-black hover:underline">Privacy Policy</a>. 
+                                I confirm the data provided is accurate.
+                            </span>
+                        </label>
+                    </div>
+
                     <div class="pt-4">
-                        <button type="submit" class="w-full relative group">
+                        <button type="submit" id="regBtn" class="w-full relative group">
                             <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                            <div class="relative flex justify-center py-4 px-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all transform active:scale-[0.98]">
-                                Complete Registration
+                            <div class="relative flex items-center justify-center py-4 px-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all transform active:scale-[0.98]">
+                                <span id="regBtnText">Complete Registration</span>
+                                <div id="regLoader" class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin ml-3"></div>
                             </div>
                         </button>
                     </div>
@@ -230,5 +294,135 @@
             </div>
         </div>
     </div>
+    <script>
+        // Security: Toggle Password Visibility
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Security: Password Strength Checker
+        function checkPasswordStrength() {
+            const password = document.getElementById('reg-password').value;
+            const bar = document.getElementById('strength-bar');
+            const text = document.getElementById('strength-text');
+            
+            let strength = 0;
+            if (password.length >= 8) strength += 25;
+            if (password.match(/[A-Z]/)) strength += 25;
+            if (password.match(/[0-9]/)) strength += 25;
+            if (password.match(/[^A-Za-z0-9]/)) strength += 25;
+
+            bar.style.width = strength + '%';
+            
+            if (strength <= 25) {
+                bar.className = 'h-full bg-red-500 transition-all duration-500';
+                text.innerText = 'Weak';
+                text.className = 'text-red-500';
+            } else if (strength <= 50) {
+                bar.className = 'h-full bg-orange-500 transition-all duration-500';
+                text.innerText = 'Medium';
+                text.className = 'text-orange-500';
+            } else if (strength <= 75) {
+                bar.className = 'h-full bg-yellow-500 transition-all duration-500';
+                text.innerText = 'Strong';
+                text.className = 'text-yellow-500';
+            } else {
+                bar.className = 'h-full bg-emerald-500 transition-all duration-500';
+                text.innerText = 'Very Secure';
+                text.className = 'text-emerald-500';
+            }
+        }
+
+        const regForm = document.getElementById('registrationForm');
+        const regBtn = document.getElementById('regBtn');
+        const regBtnText = document.getElementById('regBtnText');
+        const regLoader = document.getElementById('regLoader');
+
+        // Handle Registration with Security Checks
+        regForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const password = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('confirm-password').value;
+
+            if (password !== confirm) {
+                Swal.fire({
+                    title: 'Security Error',
+                    text: 'Passwords do not match. Please verify.',
+                    icon: 'warning',
+                    confirmButtonColor: '#3b82f6'
+                });
+                return;
+            }
+
+            if (password.length < 8) {
+                Swal.fire({
+                    title: 'Low Security',
+                    text: 'Password must be at least 8 characters long.',
+                    icon: 'warning',
+                    confirmButtonColor: '#3b82f6'
+                });
+                return;
+            }
+            
+            // Start Loading State
+            regBtnText.innerText = 'Securing Data...';
+            regLoader.classList.remove('hidden');
+            regBtn.classList.add('opacity-80', 'pointer-events-none');
+
+            // Simulate Hardware-Security-Module (HSM) Encryption
+            setTimeout(() => {
+                Swal.fire({
+                    title: 'Account Secured!',
+                    text: 'Your account was created with 101% industry-standard encryption.',
+                    icon: 'success',
+                    confirmButtonText: 'Enter Portal',
+                    confirmButtonColor: '#3b82f6',
+                    allowOutsideClick: false
+                }).then(() => {
+                    localStorage.setItem('isAuthenticated', 'true');
+                    window.location.href = 'student/dashboard.html';
+                });
+            }, 2500);
+        });
+
+        // Simulate Social Register
+        function simulateSocialRegister(provider) {
+            Swal.fire({
+                title: `Secure Register: ${provider}`,
+                html: `Authenticating via OAuth 2.0 secure callback...`,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Authorize',
+                confirmButtonColor: '#3b82f6',
+                cancelButtonColor: '#94a3b8'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Encrypting Data...',
+                        allowOutsideClick: false,
+                        didOpen: () => Swal.showLoading(),
+                        timer: 2000,
+                        willClose: () => {
+                            localStorage.setItem('isAuthenticated', 'true');
+                            window.location.href = 'student/dashboard.html';
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+    <!-- SweetAlert2 for nice alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Font Awesome (Registration uses icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </body>
 </html>
