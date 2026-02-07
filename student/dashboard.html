@@ -61,24 +61,50 @@
         .animate-float { animation: floating 3s ease-in-out infinite; }
         .animate-blink { animation: blink 1.5s linear infinite; }
 
-        /* Dynamic Greeting Animations */
-        @keyframes sun-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        /* Natural Sticker Feel */
+        .natural-sticker {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 10px 20px -5px rgba(0, 0, 0, 0.05),
+                inset 0 0 15px rgba(255, 255, 255, 0.5);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .animate-sun { animation: sun-spin 12s linear infinite; }
+        .natural-sticker:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
 
-        @keyframes moon-sway {
-            0%, 100% { transform: translateY(0) rotate(-8deg); }
-            50% { transform: translateY(-5px) rotate(8deg); }
+        @keyframes sun-rise {
+            0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.6)); }
+            50% { transform: scale(1.3); filter: drop-shadow(0 0 25px rgba(255, 193, 7, 0.8)); }
         }
-        .animate-moon { animation: moon-sway 4s ease-in-out infinite; }
+        .sticker-sun { animation: sun-rise 4s ease-in-out infinite; }
 
-        @keyframes ray-pulse {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.4)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.7)); transform: scale(1.05); }
+        @keyframes cloud-drift {
+            0%, 100% { transform: translateX(-5px) translateY(0); opacity: 0.8; }
+            50% { transform: translateX(5px) translateY(-5px); opacity: 1; }
         }
-        .glow-sun { animation: ray-pulse 3s ease-in-out infinite; }
+        .sticker-cloud { animation: cloud-drift 5s ease-in-out infinite; }
+
+        @keyframes star-twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .sticker-star { animation: star-twinkle 2s ease-in-out infinite; }
+
+        @keyframes moon-rotate {
+            0%, 100% { transform: rotate(-10deg) scale(1); }
+            50% { transform: rotate(10deg) scale(1.1); }
+        }
+        .sticker-moon { animation: moon-rotate 6s ease-in-out infinite; }
 
         /* Dark mode logo fix */
         .dark .dark-mode-logo {
@@ -234,11 +260,11 @@
                 <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 
                 <div class="relative z-10 space-y-10">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div id="greeting-icon" class="text-4xl sm:text-5xl flex items-center justify-center"></div>
-                        <div>
-                            <h2 id="greeting-text" class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">Welcome back!</h2>
-                            <p class="text-sm sm:text-lg text-slate-400 font-medium tracking-tight">Active Student Portal</p>
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-4">
+                        <div id="greeting-icon" class="relative"></div>
+                        <div class="text-center sm:text-left">
+                            <h2 id="greeting-text" class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-1">Welcome!</h2>
+                            <p class="text-sm sm:text-lg text-slate-400 font-bold tracking-tight uppercase">Active Student Portal</p>
                         </div>
                     </div>
 
@@ -366,16 +392,34 @@
 
             if (hours >= 5 && hours < 12) {
                 greeting = `Good Morning, ${firstName}!`;
-                iconHTML = '<i class="fa-solid fa-sun text-yellow-400 animate-sun glow-sun"></i>';
+                iconHTML = `
+                    <div class="natural-sticker">
+                        <i class="fa-solid fa-sun text-4xl text-yellow-400 sticker-sun"></i>
+                        <i class="fa-solid fa-cloud absolute -right-2 top-0 text-xl text-slate-200/80 sticker-cloud"></i>
+                    </div>`;
             } else if (hours >= 12 && hours < 17) {
                 greeting = `Good Afternoon, ${firstName}!`;
-                iconHTML = '<i class="fa-solid fa-cloud-sun text-orange-400 animate-float"></i>';
+                iconHTML = `
+                    <div class="natural-sticker">
+                        <i class="fa-solid fa-sun text-4xl text-orange-400 sticker-sun"></i>
+                        <i class="fa-solid fa-cloud absolute right-2 bottom-2 text-2xl text-slate-300 sticker-cloud"></i>
+                    </div>`;
             } else if (hours >= 17 && hours < 21) {
                 greeting = `Good Evening, ${firstName}!`;
-                iconHTML = '<i class="fa-solid fa-cloud-moon text-indigo-400 animate-moon"></i>';
+                iconHTML = `
+                    <div class="natural-sticker bg-indigo-50/50">
+                        <i class="fa-solid fa-moon text-4xl text-indigo-400 sticker-moon"></i>
+                        <i class="fa-solid fa-star absolute top-2 right-4 text-[0.6rem] text-yellow-200 sticker-star"></i>
+                        <i class="fa-solid fa-star absolute bottom-4 left-4 text-[0.4rem] text-yellow-200 sticker-star [animation-delay:1s]"></i>
+                    </div>`;
             } else {
                 greeting = `Good Night, ${firstName}!`;
-                iconHTML = '<i class="fa-solid fa-moon text-blue-300 animate-moon"></i>';
+                iconHTML = `
+                    <div class="natural-sticker bg-slate-900/10">
+                        <i class="fa-solid fa-moon text-4xl text-slate-400 sticker-moon"></i>
+                        <i class="fa-solid fa-cloud absolute bottom-1 right-1 text-xl text-slate-300/50 sticker-cloud"></i>
+                        <i class="fa-solid fa-star absolute top-3 left-3 text-[0.5rem] text-blue-200 sticker-star"></i>
+                    </div>`;
             }
 
             text.innerText = greeting;
